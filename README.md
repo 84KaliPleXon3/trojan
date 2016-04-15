@@ -9,7 +9,7 @@ config:<br>
 > 指定所加载模块<br>
 
 tool<br>
-> 木马常用工具具<br>
+> 木马常用工具<br>
 > 上传恶意代码，执行命令<br>
 
 data<br>

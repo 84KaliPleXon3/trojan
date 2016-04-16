@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #-*- coding:utf-8 -*-
-
+#连接远程ssh服务器，执行命令
 import paramiko
 import subprocess
 import sys
@@ -16,20 +16,16 @@ def ssh_command(ip,user=None,passwd=None):
 			client.connect(ip)
 	except:
 		print('connect failed!')
-	transport = client.get_transport()
-	transport.set_keepalive(100)
 	while True:
 		try:
-			ssh_session=transport.open_session()
-			if ssh_session.active:
-				command=raw_input("command:")
-				ssh_session.exec_command(command)
-				print ssh_session.recv(1024)
-			else:
-				ssh_session.close()
-				sys.exit(0)
+			command=raw_input("command:")
+			stdin, stdout, stderr = client.exec_command(command)
+			response=''
+			for line in stdout.readlines():
+				response+=line.encode('utf-8')
+			print(response)
 		except KeyboardInterrupt:
-				ssh_session.close()
-				sys.exit(0)
+			client.close()
+			sys.exit(0)
 
 ssh_command(sys.argv[1])

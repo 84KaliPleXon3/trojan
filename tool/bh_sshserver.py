@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #-*- coding:utf-8 -*-
-#SSH鏈嶅姟鍣紝闅ч亾鍔犲瘑
+#SSH服务器，反向连接执行命令
 
 import paramiko
 import socket
@@ -45,7 +45,6 @@ try:
     except paramiko.SSHException,x:
         print '[-]SSH negotiation failed!'
     chan = bhSession.accept()
-    print type(chan)
     print '[+] Authenticated!'
     print chan.recv(1024)
     chan.send('Welcome to bh_ssh')

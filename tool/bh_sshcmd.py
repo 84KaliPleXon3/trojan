@@ -18,6 +18,8 @@ user=''
 passwd=''
 target=''
 
+key=paramiko.RSAKey.from_private_key_file('/root/.ssh/id_rsa')
+
 def ssh_command(client):
     #主循环执行命令
     while True:
@@ -68,7 +70,7 @@ def ssh_download(client):
 def ssh_reverse(client):
     transport=client.get_transport()
     chan=transport.open_session()
-    chan.send('hello')
+    chan.send('[+]Connected')
     command=chan.recv(1024)
     while True:
         try:
@@ -100,10 +102,11 @@ def ssh_client(target,user,passwd):
             client.connect(target,username=user,password=passwd)
         else:
             #密钥连接
-            client.connect(target)
+            client.connect(target,pkey=key)
         return client
     except:
         print('connect failed!')
+        sys.exit(0)
 
 
 def usage():

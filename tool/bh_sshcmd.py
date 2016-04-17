@@ -14,6 +14,7 @@ command = False
 download = False
 upload = False
 reverse= False
+port=22
 user=''
 passwd=''
 target=''
@@ -90,7 +91,7 @@ def ssh_reverse(client):
             sys.exit(0)
 
 
-def ssh_client(target,user,passwd):
+def ssh_client(target,port,user,passwd):
     #初始化ssh客户端
     client=paramiko.SSHClient()
     #加载密钥
@@ -99,10 +100,10 @@ def ssh_client(target,user,passwd):
     try:
         #如果提供帐号密码
         if len(user)>2 and len(passwd)>2:
-            client.connect(target,username=user,password=passwd)
+            client.connect(target,port,username=user,password=passwd)
         else:
             #密钥连接
-            client.connect(target,username=user,pkey=key)
+            client.connect(target,port,pkey=key)
         return client
     except:
         print('connect failed!')
@@ -132,10 +133,10 @@ def main():
     global user
     global passwd
     global target
-    
+    global port
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hdcurt:",
-            ["help", "download", "command", "upload","reverse","user=","passwd=","target="])
+        opts, args = getopt.getopt(sys.argv[1:], "hdcurt:p:",
+            ["help", "download", "command", "upload","reverse","user=","passwd=","target=","port="])
     except getopt.GetoptError as err:
         print str(err)
         usage()
@@ -153,6 +154,8 @@ def main():
             reverse = True
         elif o in ("-t", "--target"):
             target = a
+        elif o in ("-p", "--port"):
+            port = int(a)
         elif o == "--user":
             user = a
         elif o == "--passwd":
@@ -160,7 +163,7 @@ def main():
         else:
             assert False, "Unhandled Option"
 
-    client=ssh_client(target,user,passwd)
+    client=ssh_client(target,port,user,passwd)
     if command:
         ssh_command(client)
     elif upload:

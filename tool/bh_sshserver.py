@@ -6,9 +6,8 @@ import paramiko
 import socket
 import threading
 import sys
-
+from binascii import hexlify
 host_key=paramiko.RSAKey(filename='/root/.ssh/id_rsa')
-
 class Server(paramiko.ServerInterface):
     def _init_(self):
         self.event=threading.Event()

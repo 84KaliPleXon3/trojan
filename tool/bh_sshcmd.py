@@ -102,7 +102,7 @@ def ssh_client(target,user,passwd):
             client.connect(target,username=user,password=passwd)
         else:
             #密钥连接
-            client.connect(target,pkey=key)
+            client.connect(target,username=user,pkey=key)
         return client
     except:
         print('connect failed!')

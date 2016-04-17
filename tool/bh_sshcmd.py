@@ -20,14 +20,15 @@ passwd=''
 target=''
 
 key=paramiko.RSAKey.from_private_key_file('/root/.ssh/id_rsa')
-
+#远程主机执行命令，返回结果
 def ssh_command(client):
     #主循环执行命令
     while True:
         try:
             command=raw_input("command:")
+            #也可使用client.get_transport().open_session，但执行命令后会关闭，可持续传输数据
             stdin, stdout, stderr = client.exec_command(command)
-            #返回结果为unicode，需要进行编码
+            #返回结果为unicode列表，需要进行编码
             response=''
             for line in stdout.readlines():
                 response+=line.encode('utf-8')
@@ -35,13 +36,16 @@ def ssh_command(client):
         except KeyboardInterrupt:
             client.close()
             sys.exit(0)
+#上传文件至SSH服务器
 def ssh_upload(client):
     transport=client.get_transport()
+    #开启传输文件服务
     sftp = paramiko.SFTPClient.from_transport(transport)
     #主循环执行命令
     while True:
         try:
             localpath= raw_input("localpath:")
+            #输入文件路径
             remotepath=raw_input("remotepath:") or ('/root/%s'%os.path.split(localpath)[1])
             sftp.put(localpath,remotepath)
             print '------------------------------------------------------------------------------'
@@ -51,10 +55,11 @@ def ssh_upload(client):
         except KeyboardInterrupt:
             client.close()
             sys.exit(0)
+#下载文件
 def ssh_download(client):
     transport=client.get_transport()
     sftp = paramiko.SFTPClient.from_transport(transport)
-    #主循环执行命令
+    #主循环执行命令    
     while True:
         try:
             remotepath=raw_input("remotepath:")
@@ -67,7 +72,7 @@ def ssh_download(client):
         except KeyboardInterrupt:
             client.close()
             sys.exit(0)
-
+#反向连接SSH服务器，可执行服务器输入的命令，返回结果
 def ssh_reverse(client):
     transport=client.get_transport()
     chan=transport.open_session()
@@ -90,7 +95,7 @@ def ssh_reverse(client):
             client.close()
             sys.exit(0)
 
-
+#连接SSH服务器，返回连接对象
 def ssh_client(target,port,user,passwd):
     #初始化ssh客户端
     client=paramiko.SSHClient()
@@ -109,7 +114,7 @@ def ssh_client(target,port,user,passwd):
         print('connect failed!')
         sys.exit(0)
 
-
+#用法
 def usage():
     print "ssh client"
     print
@@ -126,6 +131,7 @@ def usage():
     print "bh_sshcmd.py -t 192.168.0.1 -u --user=**** --passwd=****"
     sys.exit(0)
 
+#主函数，获得参数
 def main():
     global command
     global download

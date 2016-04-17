@@ -7,7 +7,10 @@ import socket
 import threading
 import sys
 from binascii import hexlify
+#加载SSH服务器密钥，以进行认证
 host_key=paramiko.RSAKey(filename='/root/.ssh/id_rsa')
+
+#继承服务基类
 class Server(paramiko.ServerInterface):
     def _init_(self):
         self.event=threading.Event()
@@ -15,14 +18,16 @@ class Server(paramiko.ServerInterface):
         if kind == 'session':
             return paramiko.OPEN_SUCCEEDED
         return paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
+    #设置登录密码，可在此连接数据库，进行认证
     def check_auth_password(self,username,password):
         if (username=='hackerl') and (password == 'liupan'):
             return paramiko.AUTH_SUCCESSFUL
         return paramiko.AUTH_FAILED
-
+#监听地址
 server=sys.argv[1]
 ssh_port = int(sys.argv[2])
 
+#套接字监听
 try:
     sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
@@ -36,13 +41,16 @@ except Exception,e:
 print '[+]got a connection!'
 
 try:
+    #将连接的套接字进行SSH隧道加密
     bhSession=paramiko.Transport(client)
     bhSession.add_server_key(host_key)
     server=Server()
     try:
+        #加载服务核心，进行认证
         bhSession.start_server(server=server)
     except paramiko.SSHException,x:
         print '[-]SSH negotiation failed!'
+    #channel传输数据
     chan = bhSession.accept()
     print '[+] Authenticated!'
     print chan.recv(1024)

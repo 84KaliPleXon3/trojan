@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+#scapy进行arp欺骗，嗅探流量
+
 from scapy.all import *
 import os
 import sys

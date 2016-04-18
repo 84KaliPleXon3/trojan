@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 #处理嗅探到的数据包，检测图片、人脸识别
-
+#需安装opencv-python
 import re
 import zlib
 import cv2

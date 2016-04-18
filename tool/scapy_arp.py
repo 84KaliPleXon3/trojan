@@ -8,8 +8,8 @@ import sys
 import threading
 
 interface    = "wlan0"
-target_ip    = sys.argc[1]
-gateway_ip   = sys.argc[2]
+target_ip    = sys.argv[1]
+gateway_ip   = sys.argv[2]
 packet_count = 1000
 poisoning    = True
 

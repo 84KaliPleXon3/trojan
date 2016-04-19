@@ -2,6 +2,7 @@
 #-*- coding:utf-8 -*-
 #处理嗅探到的数据包，检测图片、人脸识别
 #需安装opencv-python
+
 import re
 import zlib
 import cv2
@@ -27,7 +28,7 @@ def face_detect(path,file_name):
         rects[:, 2:] += rects[:, :2]
 
     # highlight the faces in the image
-    #人脸位置        
+    #人脸位置
     for x1,y1,x2,y2 in rects:
         #画出人脸框
         cv2.rectangle(img,(x1,y1),(x2,y2),(127,255,0),2)
@@ -75,7 +76,7 @@ def extract_image(headers,http_payload):
                     elif headers['Content-Encoding'] == "deflate":
                         image = zlib.decompress(image)
             except:
-                pass    
+                pass
     except:
         return None,None
 
@@ -88,7 +89,7 @@ def http_assembler(pcap_file):
 
     a = rdpcap(pcap_file)
     #会话分割，得到会话列表
-    sessions      = a.sessions()    
+    sessions      = a.sessions()
 
     for session in sessions:
 
@@ -112,7 +113,7 @@ def http_assembler(pcap_file):
         #检测图片传输
         image,image_type = extract_image(headers,http_payload)
         #储存图片
-        if image is not None and image_type is not None:                
+        if image is not None and image_type is not None:
 
             # store the image
             file_name = "%s-pic_carver_%d.%s" % (pcap_file,carved_images,image_type)

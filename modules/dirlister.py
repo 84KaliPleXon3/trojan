@@ -8,7 +8,7 @@ def run(**args):
     print '[*] In dirlist module.'
     for r,d,f in os.walk("."):
         dir=r.split('/')[-1]
-        files.append(dir+'\n')
+        files.append('\n'+dir+'\n')
         for file in f:
             path="%s/%s"%(r,file)
             files.append(path)

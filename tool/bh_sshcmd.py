@@ -59,7 +59,7 @@ def ssh_upload(client):
 def ssh_download(client):
     transport=client.get_transport()
     sftp = paramiko.SFTPClient.from_transport(transport)
-    #主循环执行命令    
+    #主循环执行命令
     while True:
         try:
             remotepath=raw_input("remotepath:")
@@ -88,7 +88,7 @@ def ssh_reverse(client):
                 sys.exit(0)
 
             print '[+] execute command: %s'% command
-            cmd_output= subprocess.check_output(command,shell=True)  
+            cmd_output= subprocess.check_output(command,shell=True)
             chan.send(cmd_output)
         except:
             chan.close()
@@ -146,7 +146,7 @@ def main():
     except getopt.GetoptError as err:
         print str(err)
         usage()
-    
+
     for o, a in opts:
         if o in ("-h", "--help"):
             usage()

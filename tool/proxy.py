@@ -22,7 +22,6 @@ def hexdump(src, length=16):
     print b'\n'.join(result)
 
 
-
 #接收数据函数
 def receive_from(connection):
     buffer = ""
@@ -64,6 +63,7 @@ def response_handler(buffer):
 def proxy_handler(client_socket, remote_host, remote_port, receive_first):
     # connect to the remote host
     #连接至远程主机
+
     remote_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     remote_socket.connect((remote_host, remote_port))
 
@@ -183,4 +183,4 @@ def main():
     server_loop(local_host, local_port, remote_host, remote_port, receive_first)
 
 
-main() 
+main()

@@ -148,7 +148,6 @@ def client_sender(buffer):
     except:
         # just catch generic errors - you can do your homework to beef this up
         print "[*] Exception! Exiting."
-
         # teardown the connection
         client.close()
 
@@ -218,7 +217,7 @@ def main():
         # send data off
         client_sender(buffer)
 
-        # we are going to listen and potentially 
+        # we are going to listen and potentially
     # upload things, execute commands and drop a shell back
     # depending on our command line options above
     if listen:

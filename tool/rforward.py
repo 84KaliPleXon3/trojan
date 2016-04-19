@@ -103,3 +103,4 @@ def usage():
     sys.exit(0)
 
 main()
+raw_input()

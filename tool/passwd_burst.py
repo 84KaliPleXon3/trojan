@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 #-*- coding:utf-8 -*-
 #网站后台字典爆破
 #具体情况可改代码

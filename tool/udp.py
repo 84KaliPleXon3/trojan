@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 #-*- coding:utf-8 -*-
 #udp端口扫描器
 
@@ -47,7 +47,7 @@ class IP(Structure):
     ]
 
     def __new__(self, socket_buffer=None):
-            return self.from_buffer_copy(socket_buffer)    
+            return self.from_buffer_copy(socket_buffer)
 
     def __init__(self, socket_buffer=None):
 
@@ -77,14 +77,14 @@ class ICMP(Structure):
         ]
 
     def __new__(self, socket_buffer):
-        return self.from_buffer_copy(socket_buffer)    
+        return self.from_buffer_copy(socket_buffer)
 
     def __init__(self, socket_buffer):
         pass
 
 # create a raw socket and bind it to the public interface
 if os.name == "nt":
-    socket_protocol = socket.IPPROTO_IP 
+    socket_protocol = socket.IPPROTO_IP
 else:
     socket_protocol = socket.IPPROTO_ICMP
 
@@ -103,7 +103,7 @@ if os.name == "nt":
 
 # start sending packets
 t = threading.Thread(target=udp_sender,args=(subnet,magic_message))
-t.start()        
+t.start()
 
 try:
     while True:
@@ -129,10 +129,10 @@ try:
             #print "ICMP -> Type: %d Code: %d" % (icmp_header.type, icmp_header.code)
 
             # now check for the TYPE 3 and CODE 3 which indicates
-            # a host is up but no port available to talk to           
+            # a host is up but no port available to talk to
             if icmp_header.code == 3 and icmp_header.type == 3:
 
-                # check to make sure we are receiving the response 
+                # check to make sure we are receiving the response
                 # that lands in our subnet
                 if IPAddress(ip_header.src_address) in IPNetwork(subnet):
 

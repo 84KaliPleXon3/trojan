@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 #-*- coding:utf-8 -*-
 #暴力破解网站目录和文件位置
 
@@ -66,7 +66,7 @@ def dir_bruter(word_queue,extensions=None):
             for extension in extensions:
                 attempt_list.append("%s%s" % (attempt, extension))
 
-        # iterate over our list of attempts        
+        # iterate over our list of attempts
         for brute in attempt_list:
             #quote将网址中的特殊字符格式化，以传输
             url = "%s%s" % (target_url, urllib.quote(brute))

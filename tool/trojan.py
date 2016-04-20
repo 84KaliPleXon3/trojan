@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 #-*- coding:utf-8 -*-
 
 #主循环检测是否有任务执行，没有则调用get_trojan_config获取配置文件
